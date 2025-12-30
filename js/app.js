@@ -10,6 +10,7 @@ class CalorieTracker {
     this._displayCaloriesConsumed();
     this._displayCaloriesBurned();
     this._displayCaloriesRemaining();
+    this._displayCaloriesProgress();
   }
 
   // Public Methods/API //
@@ -62,10 +63,40 @@ class CalorieTracker {
 
   _displayCaloriesRemaining() {
     const caloriesRemainingEl = document.getElementById('calories-remaining');
+    const progressEl = document.getElementById('calorie-progress');
 
     const remaining = this._calorieLimit - this._totalCalories;
 
     caloriesRemainingEl.innerHTML = remaining;
+
+    if (remaining <= 0) {
+      caloriesRemainingEl.parentElement.parentElement.classList.remove(
+        'bg-light'
+      );
+      caloriesRemainingEl.parentElement.parentElement.classList.add(
+        'bg-danger'
+      );
+
+      progressEl.classList.remove('bg-success');
+      progressEl.classList.add('bg-danger');
+    } else {
+      caloriesRemainingEl.parentElement.parentElement.classList.remove(
+        'bg-danger'
+      );
+      caloriesRemainingEl.parentElement.parentElement.classList.add('bg-light');
+
+      progressEl.classList.remove('bg-danger');
+      progressEl.classList.add('bg-success');
+    }
+  }
+
+  _displayCaloriesProgress() {
+    const progressEl = document.getElementById('calorie-progress');
+
+    const persentage = (this._totalCalories / this._calorieLimit) * 100;
+    const width = Math.min(persentage, 100);
+
+    progressEl.style.width = `${width}%`;
   }
 
   _render() {
@@ -73,6 +104,7 @@ class CalorieTracker {
     this._displayCaloriesConsumed();
     this._displayCaloriesBurned();
     this._displayCaloriesRemaining();
+    this._displayCaloriesProgress();
   }
 }
 
@@ -95,11 +127,11 @@ class Workout {
 const tracker = new CalorieTracker();
 
 const breakfast = new Meal('breakfast', 350);
-const lunch = new Meal('lunch', 400);
+const lunch = new Meal('lunch', 1900);
 tracker.addMeal(breakfast);
 tracker.addMeal(lunch);
 
-const run = new Workout('run', 100);
+const run = new Workout('run', 350);
 tracker.addWorkout(run);
 
 console.log(tracker._meals);
