@@ -53,8 +53,6 @@ This project was built to:
 - Improve understanding of application state and UI updates  
 - Learn how small frontend projects are structured  
 
-It is **not intended for commercial use**.
-
 ---
 
 ## Credits
